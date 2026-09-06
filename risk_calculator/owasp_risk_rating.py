@@ -11,7 +11,12 @@ def parse_risk_vector(vector: str) -> dict:
 
     pairs = vector.strip().split("/")
 
-    pairs = [p for p in pairs if p]
+    cleaned_pairs = []
+    for p in pairs:
+        if p:
+            cleaned_pairs.append(p)
+            
+    pairs = cleaned_pairs
 
     if len(pairs) != len(EXPECTED_ORDER):
         raise ValueError(

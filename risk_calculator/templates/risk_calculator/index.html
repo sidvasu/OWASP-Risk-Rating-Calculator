@@ -1,0 +1,269 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OWASP Risk Rating Calculator</title>
+    </head>
+    <body>
+        <h1>OWASP Risk Rating Calculator</h1>
+
+        {% csrf_token %}
+
+        <label for="input">Risk Rating Vector</label>
+        <input type="text" id="input" placeholder="SL:3/M:4/O:.../PV:9 (optional — overrides dropdowns below)">
+
+        <div display="flex" flex-direction="row">
+            <div display="flex" flex-direction="column">
+                <h2>Threat Agent Factors</h2>
+                <label for="skill-level">Skill Level</label>
+                <select id="skill-level">
+                    <option value="0">0</option>
+                    <option value="1">1 - No technical skills</option>
+                    <option value="2">2</option>
+                    <option value="3">3 - Some technical skills</option>
+                    <option value="4">4</option>
+                    <option value="5">5 - Advanced computer user</option>
+                    <option value="6">6 - Network and programming skills</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - Security penetration skills</option>
+                </select>
+
+                <label for="motive">Motive</label>
+                <select id="motive">
+                    <option value="0">0</option>
+                    <option value="1">1 - Low or no reward</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4 - Possible reward</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - High reward</option>
+                </select>
+
+                <label for="opportunity">Opportunity</label>
+                <select id="opportunity">
+                    <option value="0">0 - Full access or expensive resources required</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4 - Special access or resources required</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7 - Some access or resources required</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - No access or resources required</option>
+                </select>
+
+                <label for="size">Size</label>
+                <select id="size">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2 - Developers or system administrators</option>
+                    <option value="3">3</option>
+                    <option value="4">4 - Intranet users</option>
+                    <option value="5">5 - Partners</option>
+                    <option value="6">6 - Authenticated users</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - Anonymous Internet users</option>
+                </select>
+            </div>
+
+            <div display="flex" flex-direction="column">
+                <h2>Vulnerability Factors</h2>
+                <label for="ease-of-discovery">Ease of Discovery</label>
+                <select id="ease-of-discovery">
+                    <option value="0">0</option>
+                    <option value="1">1 - Practically impossible</option>
+                    <option value="2">2</option>
+                    <option value="3">3 - Difficult</option>
+                    <option value="4">4</option>
+                    <option value="5">5 - Easy</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - Automated tools available</option>
+                </select>
+
+                <label for="ease-of-exploit">Ease of Exploit</label>
+                <select id="ease-of-exploit">
+                    <option value="0">0</option>
+                    <option value="1">1 - Theoretical</option>
+                    <option value="2">2</option>
+                    <option value="3">3 - Difficult</option>
+                    <option value="4">4</option>
+                    <option value="5">5 - Easy</option>
+                    <option value="6">6</option>
+                    <option value="7">7 - Some access or resources required</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - Automated tools available</option>
+                </select>
+
+                <label for="awareness">Awareness</label>
+                <select id="awareness">
+                    <option value="0">0</option>
+                    <option value="1">1 - Unknown</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4 - Hidden</option>
+                    <option value="5">5</option>
+                    <option value="6">6 - Obvious</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - Public knowledge</option>
+                </select>
+
+                <label for="intrusion-detection">Intrusion Detection</label>
+                <select id="intrusion-detection">
+                    <option value="0">0</option>
+                    <option value="1">1 - Active detection in application</option>
+                    <option value="2">2</option>
+                    <option value="3">3 - Logged and reviewed</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8 - Logged without review</option>
+                    <option value="9">9 - Not logged</option>
+                </select>
+            </div>
+
+            <div display="flex" flex-direction="column">
+                <h2>Technical Impact Factors</h2>
+                <label for="loss-of-confidentiality">Loss of Confidentiality</label>
+                <select id="loss-of-confidentiality">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2 - Minimal non-sensitive data disclosed</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6 - Minimal critical data or extensive non-sensitive data disclosed</option>
+                    <option value="7">7 - Extensive critical data disclosed</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - All data disclosed</option>
+                </select>
+
+                <label for="loss-of-integrity">Loss of Integrity</label>
+                <select id="loss-of-integrity">
+                    <option value="0">0</option>
+                    <option value="1">1 - Minimal slightly corrupt data</option>
+                    <option value="2">2</option>
+                    <option value="3">3 - Minimal seriously corrupt data</option>
+                    <option value="4">4</option>
+                    <option value="5">5 - Extensive slightly corrupt data</option>
+                    <option value="6">6</option>
+                    <option value="7">7 - Extensive seriously corrupt data</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - All data totally corrupt</option>
+                </select>
+
+                <label for="loss-of-availability">Loss of Availability</label>
+                <select id="loss-of-availability">
+                    <option value="0">0</option>
+                    <option value="1">1 - Minimal secondary services interrupted</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 - Minimal primary services or extensive secondary services interrupted</option>
+                    <option value="6">6</option>
+                    <option value="7">7 - Extensive primary services interrupted</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - All services completely lost</option>
+                </select>
+
+                <label for="loss-of-accountability">Loss of Accountability</label>
+                <select id="loss-of-accountability">
+                    <option value="0">0</option>
+                    <option value="1">1 - Fully traceable</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7 - Possibly traceable</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - Completely anonymous</option>
+                </select>
+            </div>
+
+            <div display="flex" flex-direction="column">
+                <h2>Business Impact Factors</h2>
+                <label for="financial-damage">Financial Damage</label>
+                <select id="financial-damage">
+                    <option value="0">0</option>
+                    <option value="1">1 - Less than the cost to fix the vulnerability</option>
+                    <option value="2">2</option>
+                    <option value="3">3 - Minor effect on annual profit</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7 - Significant effect on annual profit</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - Bankruptcy</option>
+                </select>
+
+                <label for="reputation-damage">Reputation Damage</label>
+                <select id="reputation-damage">
+                    <option value="0">0</option>
+                    <option value="1">1 - Minimal damage</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4 - Loss of major accounts</option>
+                    <option value="5">5 - Loss of goodwill</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - Brand damage</option>
+                </select>
+
+                <label for="non-compliance">Non-Compliance</label>
+                <select id="non-compliance">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2 - Minor violation</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 - Clear violation</option>
+                    <option value="6">6</option>
+                    <option value="7">7 - High profile violation</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+
+                <label for="privacy-violation">Privacy Violation</label>
+                <select id="privacy-violation">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3 - One individual</option>
+                    <option value="4">4</option>
+                    <option value="5">5 - Hundreds of people</option>
+                    <option value="6">6</option>
+                    <option value="7">7 - Thousands of people</option>
+                    <option value="8">8</option>
+                    <option value="9">9 - Millions of people</option>
+                </select>
+            </div>
+        </div>
+
+        <button id="calculate">Calculate</button>
+        <p id="error-message" style="color: red;"></p>
+
+        <label for="likelihood">Likelihood</label>
+        <p id="likelihood"></p>
+
+        <label for="impact">Impact</label>
+        <p id="impact"></p>
+
+        <label for="risk-severity">Risk Severity</label>
+        <p id="risk-severity"></p>
+
+        <script src="{% static 'risk_calculator/js/calculator.js' %}"></script>
+    </body>
+</html>

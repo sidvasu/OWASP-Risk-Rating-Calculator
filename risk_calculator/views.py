@@ -78,6 +78,7 @@ def calculate(request):
         return JsonResponse({"error": "Invalid JSON body."}, status=400)
 
     vector = (data.get("vector") or "").strip()
+    use_business_impact = data.get("useBusinessImpact", True)
 
     if not vector:
         try:
@@ -95,18 +96,14 @@ def calculate(request):
         factors["ED"], factors["EE"], factors["A"], factors["ID"],
     )
 
-    business_impact, business_impact_level = calculate_business_impact(
-        factors["FD"], factors["RD"], factors["NC"], factors["PV"],
-    )
-
-    technical_impact, technical_impact_level = calculate_technical_impact(
-        factors["LC"], factors["LI"], factors["LAV"], factors["LAC"],
-    )
-
-    # Per OWASP methodology, business impact takes precedence over technical
-    # impact whenever business impact factors are available, which they are
-    # here since the vector always includes FD/RD/NC/PV.
-    impact, impact_level = business_impact, business_impact_level
+    if use_business_impact:
+        impact, impact_level = calculate_business_impact(
+            factors["FD"], factors["RD"], factors["NC"], factors["PV"],
+        )
+    else:
+        impact, impact_level = calculate_technical_impact(
+            factors["LC"], factors["LI"], factors["LAV"], factors["LAC"],
+        )
 
     risk_severity = calculate_risk_severity(likelihood_level, impact_level)
 
@@ -114,10 +111,6 @@ def calculate(request):
         "vector": vector,
         "likelihood": round(likelihood, 2),
         "likelihood_level": likelihood_level,
-        "technical_impact": round(technical_impact, 2),
-        "technical_impact_level": technical_impact_level,
-        "business_impact": round(business_impact, 2),
-        "business_impact_level": business_impact_level,
         "impact": round(impact, 2),
         "impact_level": impact_level,
         "risk_severity": risk_severity,

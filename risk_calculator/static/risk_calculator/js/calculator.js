@@ -26,15 +26,17 @@ function getCsrfToken() {
 
 function buildPayload() {
     const vectorInput = document.getElementById("input").value.trim();
+    const useBusinessImpact = document.getElementById("business-impact").checked;
 
     if (vectorInput) {
-        return { vector: vectorInput };
+        return { vector: vectorInput, useBusinessImpact: useBusinessImpact };
     }
 
     const payload = {};
     for (const fieldId of FIELD_IDS) {
         payload[fieldId] = document.getElementById(fieldId).value;
     }
+    payload.useBusinessImpact = useBusinessImpact;
     return payload;
 }
 
@@ -52,6 +54,20 @@ function showResults(data) {
     document.getElementById("impact").textContent =
         `${data.impact} (${data.impact_level})`;
     document.getElementById("risk-severity").textContent = data.risk_severity;
+}
+
+function calculateImpact() {
+    const useBusiness = document.getElementById('business-impact').checked;
+
+    if (useBusiness) {
+        // Calculate using business impact fields
+        const result = calculateBusinessImpact();
+        // ...
+    } else {
+        // Calculate using technical impact fields
+        const result = calculateTechnicalImpact();
+        // ...
+    }
 }
 
 async function calculateRisk() {

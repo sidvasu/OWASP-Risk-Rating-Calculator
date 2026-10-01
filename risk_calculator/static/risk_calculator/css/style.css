@@ -1,0 +1,34 @@
+body {
+    padding: 1em;
+}
+
+select {
+    width: 200px;
+}
+
+#menu {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.category {
+    margin-bottom: 1em;
+}
+
+table, tr, th, td {
+    text-align: center;
+}
+
+th, td {
+    padding: 0.5em;
+}
+
+th {
+    background-color: #e1e1e1;
+}
+
+td {
+    background-color: #f1f1f1;
+}

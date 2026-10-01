@@ -59,11 +59,11 @@ def calculate_likelihood(SL, M, O, S, ED, EE, A, ID):
     likelihood = (threat_agent_factor + vulnerability_factor) / 8
 
     if 0 <= likelihood < 3:
-        likelihood_level = "low"
+        likelihood_level = "Low"
     elif 3 <= likelihood < 6:
-        likelihood_level = "medium"
+        likelihood_level = "Medium"
     else:
-        likelihood_level = "high"
+        likelihood_level = "High"
 
     return likelihood, likelihood_level
 
@@ -72,11 +72,11 @@ def calculate_business_impact(FD, RD, NC, PV):
     business_impact = (FD + RD + NC + PV) / 4
 
     if 0 <= business_impact < 3:
-        business_impact_level = "low"
+        business_impact_level = "Low"
     elif 3 <= business_impact < 6:
-        business_impact_level = "medium"
+        business_impact_level = "Medium"
     else:
-        business_impact_level = "high"
+        business_impact_level = "High"
 
     return business_impact, business_impact_level
 
@@ -84,30 +84,30 @@ def calculate_technical_impact(LC, LI, LAV, LAC):
     technical_impact = (LC + LI + LAV + LAC) / 4
     
     if 0 <= technical_impact < 3:
-        technical_impact_level = "low"
+        technical_impact_level = "Low"
     elif 3 <= technical_impact < 6:
-        technical_impact_level = "medium"
+        technical_impact_level = "Medium"
     else:
-        technical_impact_level = "high"
+        technical_impact_level = "High"
 
     return technical_impact, technical_impact_level
 
 # Risk Severity Calculation
 def calculate_risk_severity(likelihood_level, impact_level):
     match likelihood_level:
-        case "low":
+        case "Low":
             likelihood_score = 1
-        case "medium":
+        case "Medium":
             likelihood_score = 2
-        case "high":
+        case "High":
             likelihood_score = 3
 
     match impact_level:
-        case "low":
+        case "Low":
             impact_score = 1
-        case "medium":
+        case "Medium":
             impact_score = 2
-        case "high":
+        case "High":
             impact_score = 3
 
     risk_score = likelihood_score + impact_score

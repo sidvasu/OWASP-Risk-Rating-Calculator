@@ -49,25 +49,9 @@ function showError(message) {
 
 function showResults(data) {
     document.getElementById("error-message").textContent = "";
-    document.getElementById("likelihood").textContent =
-        `${data.likelihood} (${data.likelihood_level})`;
-    document.getElementById("impact").textContent =
-        `${data.impact} (${data.impact_level})`;
+    document.getElementById("likelihood").textContent = data.likelihood_level;
+    document.getElementById("impact").textContent = data.impact_level;
     document.getElementById("risk-severity").textContent = data.risk_severity;
-}
-
-function calculateImpact() {
-    const useBusiness = document.getElementById('business-impact').checked;
-
-    if (useBusiness) {
-        // Calculate using business impact fields
-        const result = calculateBusinessImpact();
-        // ...
-    } else {
-        // Calculate using technical impact fields
-        const result = calculateTechnicalImpact();
-        // ...
-    }
 }
 
 async function calculateRisk() {
